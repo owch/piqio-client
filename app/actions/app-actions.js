@@ -22,6 +22,28 @@ export function login(username, password) {
 	//   });
 }
 
+export function register(username, password) {	
+	return (dispatch) => {
+		const ngrokUrl = "http://501d6d3f.ngrok.io";
+
+
+		axios.post(ngrokUrl + '/api/users/', {
+		    email: username,
+		    password: password,
+		    "group":"admin"
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		    dispatch(setAuthState(success));
+		    browserHistory.push('/dashboard');
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
+	}
+}
+
+
 /**
  * Sets the authentication state of the application
  * @param {boolean} newState True means a user is logged in, false means no user is logged in

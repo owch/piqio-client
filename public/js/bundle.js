@@ -28368,6 +28368,7 @@
 		value: true
 	});
 	exports.login = login;
+	exports.register = register;
 	exports.setAuthState = setAuthState;
 	
 	var _reactRouter = __webpack_require__(205);
@@ -28398,6 +28399,24 @@
 		//   .catch(function (error) {
 		//     console.log(error);
 		//   });
+	}
+	
+	function register(username, password) {
+		return function (dispatch) {
+			var ngrokUrl = "http://501d6d3f.ngrok.io";
+	
+			_axios2.default.post(ngrokUrl + '/api/users/', {
+				email: username,
+				password: password,
+				"group": "admin"
+			}).then(function (response) {
+				console.log(response);
+				dispatch(setAuthState(success));
+				_reactRouter.browserHistory.push('/dashboard');
+			}).catch(function (error) {
+				console.log(error);
+			});
+		};
 	}
 	
 	/**
@@ -31967,6 +31986,12 @@
 	
 	var _reactRedux = __webpack_require__(159);
 	
+	var _reactDom = __webpack_require__(158);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _appActions = __webpack_require__(265);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31985,6 +32010,19 @@
 		}
 	
 		_createClass(RegisterPage, [{
+			key: '_register',
+			value: function _register(e) {
+				e.preventDefault();
+				console.log("here");
+	
+				var username = _reactDom2.default.findDOMNode(this.refs.username).value.trim();
+				var password = _reactDom2.default.findDOMNode(this.refs.password).value.trim();
+	
+				var me = this;
+	
+				this.props.dispatch((0, _appActions.register)(username, password));
+			}
+		}, {
 			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
@@ -32004,11 +32042,11 @@
 									{ className: 'form-signin-heading' },
 									'Sign up'
 								),
-								_react2.default.createElement('input', { type: 'text', className: 'form-control username', placeholder: 'Email Address', required: '', autoFocus: '' }),
-								_react2.default.createElement('input', { type: 'password', className: 'form-control password', placeholder: 'Password', required: '' }),
+								_react2.default.createElement('input', { type: 'text', id: 'username', ref: 'username', className: 'form-control username', placeholder: 'Email Address', required: '', autoFocus: '' }),
+								_react2.default.createElement('input', { type: 'password', id: 'password', ref: 'password', className: 'form-control password', placeholder: 'Password', required: '' }),
 								_react2.default.createElement(
 									'button',
-									{ className: 'btn btn-lg btn-primary btn-block login-button', type: 'submit' },
+									{ className: 'btn btn-lg btn-primary btn-block login-button', type: 'submit', onClick: this._register.bind(this) },
 									'Register'
 								)
 							)
@@ -32021,7 +32059,18 @@
 		return RegisterPage;
 	}(_react.Component);
 	
-	exports.default = RegisterPage;
+	// Which props do we want to inject, given the global state?
+	
+	
+	function select(state) {
+	
+		return {
+			data: state
+		};
+	}
+	
+	// Wrap the component to inject dispatch and state into it
+	exports.default = (0, _reactRedux.connect)(select)(RegisterPage);
 
 /***/ }),
 /* 297 */
