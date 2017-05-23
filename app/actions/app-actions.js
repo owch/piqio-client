@@ -34,7 +34,7 @@ export function register(username, password) {
 		  })
 		  .then(function (response) {
 		    console.log(response);
-		    dispatch(setAuthState(success));
+		    dispatch(setAuthState(true));
 		    browserHistory.push('/dashboard');
 		  })
 		  .catch(function (error) {

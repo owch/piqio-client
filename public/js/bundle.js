@@ -28411,7 +28411,7 @@
 				"group": "admin"
 			}).then(function (response) {
 				console.log(response);
-				dispatch(setAuthState(success));
+				dispatch(setAuthState(true));
 				_reactRouter.browserHistory.push('/dashboard');
 			}).catch(function (error) {
 				console.log(error);
