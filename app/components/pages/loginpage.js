@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
 import { login } from '../../actions/app-actions';
 
@@ -14,7 +15,7 @@ class LoginPage extends Component {
 		
 		var me = this;		
 
-		login(username, password);
+		this.props.dispatch(login(username, password));
 	}
 
 	render() {			
@@ -38,5 +39,15 @@ class LoginPage extends Component {
 	}	
 }
 
+
+
+// Which props do we want to inject, given the global state?
+function select(state) {
+
+	return {
+	   data: state
+	};
+}
+
 // Wrap the component to inject dispatch and state into it
-export default LoginPage;
+export default connect(select)(LoginPage);
