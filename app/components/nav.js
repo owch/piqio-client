@@ -1,14 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
+import { logout } from '../actions/app-actions';
 
 
 class Nav extends Component {
+
+    _logout(e) {
+      e.preventDefault();
+
+      this.props.dispatch(logout());
+    }
   	render() {		
       console.log(this.props.loggedIn);
   		const navButtons = this.props.loggedIn ? (
           <div>
               <Link to="/dashboard" className="btn btn--login btn--nav">Dashboard</Link>
-              <Link to="/login" className="btn btn--login btn--nav">Logout</Link>
+              <a href="#" className="btn btn--login btn--nav" onClick={this._logout.bind(this)}>Logout</a>
           </div>
         ) : (
         <div>

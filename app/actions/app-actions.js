@@ -1,31 +1,38 @@
 import { browserHistory } from 'react-router';
-import { CHANGE_FORM, SET_AUTH, SENDING_REQUEST, SET_ERROR_MESSAGE } from '../constants/app-constants';
+import { CHANGE_FORM, SET_AUTH, SENDING_REQUEST, SET_ERROR_MESSAGE, SET_USER_ID, SET_EMAIL, SET_AUTH_TOKEN } from '../constants/app-constants';
 import axios from 'axios';
+import $ from 'jquery';
 
 export function login(username, password) {	
 	return (dispatch) => {
-		var success = true;
-		dispatch(setAuthState(success));
-		forwardTo('/dashboard');
-	}
+		const ngrokUrl = "http://e15fee18.ngrok.io";
+		var encodedData = window.btoa(username + ':' + password);
 
-	// axios.post('http://127.0.0.1:3001/login', {
-	//     email: username,
-	//     password: password
-	//   })
-	//   .then(function (response) {
-	//     console.log(response);
-	//     browserHistory.push('/dashboard');
-	//   })
-	//   .catch(function (error) {
-	//     console.log(error);
-	//   });
+		$.ajax
+		  ({
+		    type: "GET",
+		    url: ngrokUrl + "/api/users/me",
+		    dataType: 'json',
+		    async: false,
+		    data: '{}',
+		    beforeSend: function (xhr){ 
+		        xhr.setRequestHeader('Authorization', "Basic " + encodedData); 
+		    },
+		    success: function (data){
+		        console.log(data);		        
+		        dispatch(setAuthState(true));
+		        dispatch(setEmail(data.user.email))
+		        dispatch(setUserId(data.user.id))
+		        dispatch(setAuthToken(data.user.token))
+		        browserHistory.push('/dashboard');
+		    }
+		});		
+	}	
 }
 
 export function register(username, password) {	
 	return (dispatch) => {
-		const ngrokUrl = "http://501d6d3f.ngrok.io";
-
+		const ngrokUrl = "http://e15fee18.ngrok.io";
 
 		axios.post(ngrokUrl + '/api/users/', {
 		    email: username,
@@ -43,6 +50,16 @@ export function register(username, password) {
 	}
 }
 
+export function logout() {
+	return (dispatch) => {
+		dispatch(setAuthState(false));		
+		dispatch(setEmail(''));
+        dispatch(setUserId(''));
+        dispatch(setAuthToken(''));
+        browserHistory.push('/');
+	}
+}
+
 
 /**
  * Sets the authentication state of the application
@@ -50,6 +67,20 @@ export function register(username, password) {
  */
 export function setAuthState(newState) {
   return { type: SET_AUTH, newState };
+}
+
+export function setAuthToken(newState) {
+  return { type: SET_AUTH_TOKEN, newState };
+}
+
+
+export function setUserId(newState) {
+  return { type: SET_USER_ID, newState };
+}
+
+
+export function setEmail(newState) {
+  return { type: SET_EMAIL, newState };
 }
 
 

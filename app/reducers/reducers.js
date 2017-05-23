@@ -1,4 +1,4 @@
-import { CHANGE_FORM, SET_AUTH, SENDING_REQUEST, SET_ERROR_MESSAGE } from '../constants/app-constants';
+import { CHANGE_FORM, SET_AUTH, SENDING_REQUEST, SET_ERROR_MESSAGE, SET_USER_ID, SET_EMAIL, SET_AUTH_TOKEN } from '../constants/app-constants';
 
 const assign = Object.assign
 
@@ -10,6 +10,9 @@ const initialState = {
   },
   currentlySending: false,
   loggedIn: false,
+  authtoken: '',
+  email: '',
+  userid: '',
   errorMessage: ''
 };
 
@@ -24,6 +27,21 @@ export function homeReducer(state = initialState, action) {
     case SET_AUTH:
       return assign({}, state, {
         loggedIn: action.newState
+      });
+      break;
+    case SET_EMAIL:
+      return assign({}, state, {
+        email: action.newState
+      });
+      break;
+    case SET_USER_ID:
+      return assign({}, state, {
+        userid: action.newState
+      });
+      break;
+    case SET_AUTH_TOKEN:
+      return assign({}, state, {
+        authtoken: action.newState
       });
       break;
     case SENDING_REQUEST:

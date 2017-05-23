@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 class HomePage extends Component {
 	render() {
-		const { loggedIn } = this.props.data;
+		const { loggedIn, email } = this.props.data;
 
 		return <div className="content"> 
 				<div className="content-wrapper">
@@ -11,7 +11,7 @@ class HomePage extends Component {
 					<div>
 						<section className="text-section">
 							{loggedIn ? (
-								<h1 className="article-heading">Welcome to Piqio, you are logged in!</h1>
+								<h1 className="article-heading">Welcome to Piqio, {email} you are logged in!</h1>
 								)
 							: (
 								<h1 className="article-heading">Welcome to Piqio, Please log in!</h1>

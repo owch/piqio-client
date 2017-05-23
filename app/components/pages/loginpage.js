@@ -7,8 +7,7 @@ import { login } from '../../actions/app-actions';
 class LoginPage extends Component {
 
 	_login(e) {
-		e.preventDefault();
-		console.log("here");
+		e.preventDefault();		
 
 		var username = ReactDOM.findDOMNode(this.refs.username).value.trim();
 		var password = ReactDOM.findDOMNode(this.refs.password).value.trim();
