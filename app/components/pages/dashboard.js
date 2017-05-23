@@ -1,0 +1,43 @@
+import React, { Component } from 'react';
+import rd3 from 'react-d3';
+
+var LineChart = rd3.LineChart;
+
+class Dashboard extends Component { 
+  render() {
+    var lineData = [
+        { 
+          name: 'line',
+          values: [ { x: 0, y: 20 }, { x: 1, y: 30 }, { x: 2, y: 10 }, { x: 3, y: 5 }, { x: 4, y: 8 }, { x: 5, y: 15 }, { x: 6, y: 10 } ],
+          strokeWidth: 3          
+        }
+      ];    
+
+    return (
+      <div className="content"> 
+        <div className="content-wrapper">
+          <h2 className="form-signin-heading">Dashboard</h2>
+          <LineChart
+                legend={true}
+                data={lineData}
+                width='100%'
+                height={400}
+                viewBoxObject={{
+                  x: 0,
+                  y: 0,
+                  width: 500,
+                  height: 400
+                }}
+                title="Graph 1"
+                yAxisLabel="Value"
+                xAxisLabel="Time"
+                domain={{x: [,6], y: [-10,]}}
+                gridHorizontal={true}
+              />
+        </div>
+      </div>
+      );    
+  }
+}
+
+export default Dashboard; 
