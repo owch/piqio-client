@@ -18,7 +18,7 @@ class LoginPage extends Component {
 		this.props.dispatch(login(username, password));
 	}
 
-	render() {			
+	render() {				
 		return (
 			 <div className="content"> 
 				<div className="content-wrapper">

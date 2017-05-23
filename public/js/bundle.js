@@ -86,31 +86,32 @@
 	
 	var _reducers = __webpack_require__(355);
 	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	var _reduxDevtoolsExtension = __webpack_require__(356);
 	
-	// Layouts
-	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	// Redux
 	
 	
 	// Pages
+	var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxThunk2.default)(_redux.createStore);
+	
+	// Layouts
 	
 	var store = createStoreWithMiddleware(_reducers.homeReducer);
 	
-	__webpack_require__(356);
-	__webpack_require__(361);
-	__webpack_require__(363);
-	__webpack_require__(365);
-	__webpack_require__(367);
+	__webpack_require__(357);
+	__webpack_require__(362);
+	__webpack_require__(364);
+	__webpack_require__(366);
+	__webpack_require__(368);
 	
 	function requireAuth(nextState, replaceState) {
 		var _store$getState = store.getState(),
 		    loggedIn = _store$getState.loggedIn;
 	
+		console.log(store.getState());
 		//if not logged in
-	
-	
 		if (!loggedIn) {
 			replaceState({ nextPathname: nextState.location.pathname }, '/login');
 		}
@@ -28021,6 +28022,8 @@
 	
 	var _reactRouter = __webpack_require__(205);
 	
+	var _reactRedux = __webpack_require__(159);
+	
 	var _nav = __webpack_require__(262);
 	
 	var _nav2 = _interopRequireDefault(_nav);
@@ -28034,13 +28037,23 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'wrapper' },
-	      _react2.default.createElement(_nav2.default, null),
+	      _react2.default.createElement(_nav2.default, { loggedIn: this.props.data.loggedIn, history: this.props.history, location: this.props.location, dispatch: this.props.dispatch }),
 	      this.props.children
 	    );
 	  }
 	});
 	
-	exports.default = MainLayout;
+	// REDUX STUFF
+	
+	// Which props do we want to inject, given the global state?
+	function select(state) {
+	  return {
+	    data: state
+	  };
+	}
+	
+	// Wrap the component to inject dispatch and state into it
+	exports.default = (0, _reactRedux.connect)(select)(MainLayout);
 
 /***/ }),
 /* 262 */
@@ -28080,7 +28093,21 @@
 	  _createClass(Nav, [{
 	    key: 'render',
 	    value: function render() {
-	      var navButtons = _react2.default.createElement(
+	      console.log(this.props.loggedIn);
+	      var navButtons = this.props.loggedIn ? _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/dashboard', className: 'btn btn--login btn--nav' },
+	          'Dashboard'
+	        ),
+	        _react2.default.createElement(
+	          _reactRouter.Link,
+	          { to: '/login', className: 'btn btn--login btn--nav' },
+	          'Logout'
+	        )
+	      ) : _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
@@ -28119,16 +28146,17 @@
 	  return Nav;
 	}(_react.Component);
 	
+	Nav.propTypes = {
+	  loggedIn: _react2.default.PropTypes.bool.isRequired
+	};
 	// Wrap the component to inject dispatch and state into it
-	
-	
 	exports.default = Nav;
 
 /***/ }),
 /* 263 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -28139,6 +28167,8 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(159);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -28158,27 +28188,27 @@
 		}
 	
 		_createClass(HomePage, [{
-			key: "render",
+			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
-					"div",
-					{ className: "content" },
+					'div',
+					{ className: 'content' },
 					_react2.default.createElement(
-						"div",
-						{ className: "content-wrapper" },
+						'div',
+						{ className: 'content-wrapper' },
 						_react2.default.createElement(
-							"article",
+							'article',
 							null,
 							_react2.default.createElement(
-								"div",
+								'div',
 								null,
 								_react2.default.createElement(
-									"section",
-									{ className: "text-section" },
+									'section',
+									{ className: 'text-section' },
 									_react2.default.createElement(
-										"h1",
-										{ className: "article-heading" },
-										"Welcome to Piqio, you are not logged in!"
+										'h1',
+										{ className: 'article-heading' },
+										'Welcome to Piqio, you are not logged in!'
 									)
 								)
 							)
@@ -31904,7 +31934,7 @@
 /* 296 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 		value: true
@@ -31915,6 +31945,8 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(159);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -31934,31 +31966,31 @@
 		}
 	
 		_createClass(RegisterPage, [{
-			key: "render",
+			key: 'render',
 			value: function render() {
 				return _react2.default.createElement(
-					"div",
-					{ className: "content" },
+					'div',
+					{ className: 'content' },
 					_react2.default.createElement(
-						"div",
-						{ className: "content-wrapper" },
+						'div',
+						{ className: 'content-wrapper' },
 						_react2.default.createElement(
-							"div",
-							{ className: "login-wrapper" },
+							'div',
+							{ className: 'login-wrapper' },
 							_react2.default.createElement(
-								"form",
-								{ className: "form-signin" },
+								'form',
+								{ className: 'form-signin' },
 								_react2.default.createElement(
-									"h2",
-									{ className: "form-signin-heading" },
-									"Sign up"
+									'h2',
+									{ className: 'form-signin-heading' },
+									'Sign up'
 								),
-								_react2.default.createElement("input", { type: "text", className: "form-control username", placeholder: "Email Address", required: "", autoFocus: "" }),
-								_react2.default.createElement("input", { type: "password", className: "form-control password", placeholder: "Password", required: "" }),
+								_react2.default.createElement('input', { type: 'text', className: 'form-control username', placeholder: 'Email Address', required: '', autoFocus: '' }),
+								_react2.default.createElement('input', { type: 'password', className: 'form-control password', placeholder: 'Password', required: '' }),
 								_react2.default.createElement(
-									"button",
-									{ className: "btn btn-lg btn-primary btn-block login-button", type: "submit" },
-									"Register"
+									'button',
+									{ className: 'btn btn-lg btn-primary btn-block login-button', type: 'submit' },
+									'Register'
 								)
 							)
 						)
@@ -31987,6 +32019,8 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(159);
 	
 	var _reactD = __webpack_require__(298);
 	
@@ -32055,8 +32089,17 @@
 	
 	  return Dashboard;
 	}(_react.Component);
+	// Which props do we want to inject, given the global state?
 	
-	exports.default = Dashboard;
+	
+	function select(state) {
+	  return {
+	    data: state
+	  };
+	}
+	
+	// Wrap the component to inject dispatch and state into it
+	exports.default = (0, _reactRedux.connect)(select)(Dashboard);
 
 /***/ }),
 /* 298 */
@@ -45577,12 +45620,38 @@
 /* 356 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	"use strict";
+	
+	var compose = __webpack_require__(178).compose;
+	
+	exports.__esModule = true;
+	exports.composeWithDevTools = (
+	  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
+	    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ :
+	    function() {
+	      if (arguments.length === 0) return undefined;
+	      if (typeof arguments[0] === 'object') return compose;
+	      return compose.apply(null, arguments);
+	    }
+	);
+	
+	exports.devToolsEnhancer = (
+	  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ ?
+	    window.__REDUX_DEVTOOLS_EXTENSION__ :
+	    function() { return function(noop) { return noop; } }
+	);
+
+
+/***/ }),
+/* 357 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	'use strict';
 	
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(357);
+	var content = __webpack_require__(358);
 	if (typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -45590,7 +45659,7 @@
 	var options = {};
 	options.transform = transform;
 	// add the styles to the DOM
-	var update = __webpack_require__(359)(content, options);
+	var update = __webpack_require__(360)(content, options);
 	if (content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if (false) {
@@ -45609,10 +45678,10 @@
 	}
 
 /***/ }),
-/* 357 */
+/* 358 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(358)(undefined);
+	exports = module.exports = __webpack_require__(359)(undefined);
 	// imports
 	
 	
@@ -45623,7 +45692,7 @@
 
 
 /***/ }),
-/* 358 */
+/* 359 */
 /***/ (function(module, exports) {
 
 	/*
@@ -45705,7 +45774,7 @@
 
 
 /***/ }),
-/* 359 */
+/* 360 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/*
@@ -45751,7 +45820,7 @@
 	var	singletonCounter = 0;
 	var	stylesInsertedAtTop = [];
 	
-	var	fixUrls = __webpack_require__(360);
+	var	fixUrls = __webpack_require__(361);
 	
 	module.exports = function(list, options) {
 		if (false) {
@@ -46065,7 +46134,7 @@
 
 
 /***/ }),
-/* 360 */
+/* 361 */
 /***/ (function(module, exports) {
 
 	
@@ -46160,7 +46229,7 @@
 
 
 /***/ }),
-/* 361 */
+/* 362 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46168,7 +46237,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(362);
+	var content = __webpack_require__(363);
 	if (typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -46176,7 +46245,7 @@
 	var options = {};
 	options.transform = transform;
 	// add the styles to the DOM
-	var update = __webpack_require__(359)(content, options);
+	var update = __webpack_require__(360)(content, options);
 	if (content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if (false) {
@@ -46195,10 +46264,10 @@
 	}
 
 /***/ }),
-/* 362 */
+/* 363 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(358)(undefined);
+	exports = module.exports = __webpack_require__(359)(undefined);
 	// imports
 	
 	
@@ -46209,7 +46278,7 @@
 
 
 /***/ }),
-/* 363 */
+/* 364 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46217,7 +46286,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(364);
+	var content = __webpack_require__(365);
 	if (typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -46225,7 +46294,7 @@
 	var options = {};
 	options.transform = transform;
 	// add the styles to the DOM
-	var update = __webpack_require__(359)(content, options);
+	var update = __webpack_require__(360)(content, options);
 	if (content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if (false) {
@@ -46244,10 +46313,10 @@
 	}
 
 /***/ }),
-/* 364 */
+/* 365 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(358)(undefined);
+	exports = module.exports = __webpack_require__(359)(undefined);
 	// imports
 	
 	
@@ -46258,7 +46327,7 @@
 
 
 /***/ }),
-/* 365 */
+/* 366 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46266,7 +46335,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(366);
+	var content = __webpack_require__(367);
 	if (typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -46274,7 +46343,7 @@
 	var options = {};
 	options.transform = transform;
 	// add the styles to the DOM
-	var update = __webpack_require__(359)(content, options);
+	var update = __webpack_require__(360)(content, options);
 	if (content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if (false) {
@@ -46293,10 +46362,10 @@
 	}
 
 /***/ }),
-/* 366 */
+/* 367 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(358)(undefined);
+	exports = module.exports = __webpack_require__(359)(undefined);
 	// imports
 	
 	
@@ -46307,7 +46376,7 @@
 
 
 /***/ }),
-/* 367 */
+/* 368 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -46315,7 +46384,7 @@
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(368);
+	var content = __webpack_require__(369);
 	if (typeof content === 'string') content = [[module.id, content, '']];
 	// Prepare cssTransformation
 	var transform;
@@ -46323,7 +46392,7 @@
 	var options = {};
 	options.transform = transform;
 	// add the styles to the DOM
-	var update = __webpack_require__(359)(content, options);
+	var update = __webpack_require__(360)(content, options);
 	if (content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if (false) {
@@ -46342,10 +46411,10 @@
 	}
 
 /***/ }),
-/* 368 */
+/* 369 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(358)(undefined);
+	exports = module.exports = __webpack_require__(359)(undefined);
 	// imports
 	
 	

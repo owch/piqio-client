@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import rd3 from 'react-d3';
 
 var LineChart = rd3.LineChart;
@@ -39,5 +40,12 @@ class Dashboard extends Component {
       );    
   }
 }
+// Which props do we want to inject, given the global state?
+function select(state) {
+  return {
+    data: state
+  };
+}
 
-export default Dashboard; 
+// Wrap the component to inject dispatch and state into it
+export default connect(select)(Dashboard);

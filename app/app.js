@@ -16,11 +16,12 @@ import Dashboard from './components/pages/dashboard';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import { homeReducer } from './reducers/reducers';
-
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(homeReducer);
+
 
 require("../css/components/_nav.css");
 require("../css/components/_buttons.css");
@@ -30,7 +31,7 @@ require("../css/main.css");
 
 function requireAuth(nextState, replaceState) {
 	let { loggedIn } = store.getState();
-	
+	console.log(store.getState());
 	//if not logged in
 	if (! loggedIn) {
 		replaceState({ nextPathname: nextState.location.pathname }, '/login')
@@ -38,12 +39,11 @@ function requireAuth(nextState, replaceState) {
 }
 
 // Now we can attach the router to the 'root' element like this:
-ReactDOM.render(
+ReactDOM.render(	
   <Provider store={store}>
 	  <Router history={browserHistory}>
 	    <Route component={MainLayout}>
 	      	<Route path="/" component={HomePage} />
-
 	      	<Route path="login" component={LoginPage}/>
 	      	<Route path="register" component={RegisterPage}/>
 			<Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
