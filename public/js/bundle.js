@@ -28190,6 +28190,9 @@
 		_createClass(HomePage, [{
 			key: 'render',
 			value: function render() {
+				var loggedIn = this.props.data.loggedIn;
+	
+	
 				return _react2.default.createElement(
 					'div',
 					{ className: 'content' },
@@ -28205,10 +28208,14 @@
 								_react2.default.createElement(
 									'section',
 									{ className: 'text-section' },
-									_react2.default.createElement(
+									loggedIn ? _react2.default.createElement(
 										'h1',
 										{ className: 'article-heading' },
-										'Welcome to Piqio, you are not logged in!'
+										'Welcome to Piqio, you are logged in!'
+									) : _react2.default.createElement(
+										'h1',
+										{ className: 'article-heading' },
+										'Welcome to Piqio, Please log in!'
 									)
 								)
 							)
@@ -28221,7 +28228,19 @@
 		return HomePage;
 	}(_react.Component);
 	
-	exports.default = HomePage;
+	// REDUX STUFF
+	
+	// Which props do we want to inject, given the global state?
+	
+	
+	function select(state) {
+		return {
+			data: state
+		};
+	}
+	
+	// Wrap the component to inject dispatch and state into it
+	exports.default = (0, _reactRedux.connect)(select)(HomePage);
 
 /***/ }),
 /* 264 */
