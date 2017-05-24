@@ -3,7 +3,7 @@ import { CHANGE_FORM, SET_AUTH, SENDING_REQUEST, SET_ERROR_MESSAGE, SET_USER_ID,
 import axios from 'axios';
 import $ from 'jquery';
 
-export function login(username, password) {	
+export function login(username, password, location) {	
 	return (dispatch) => {		
 		var encodedData = window.btoa(username + ':' + password);
 
@@ -23,7 +23,12 @@ export function login(username, password) {
 		        dispatch(setEmail(data.user.email));
 		        dispatch(setUserId(data.user.id));
 		        dispatch(setAuthToken(data.user.token));
-		        browserHistory.push('/dashboard');
+
+				if (location.state && location.state.nextPathname) {
+					browserHistory.push(location.state.nextPathname)
+				} else {
+					browserHistory.push('/dashboard')
+				}
 		    }
 		});		
 	}	
