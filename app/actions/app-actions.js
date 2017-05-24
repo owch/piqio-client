@@ -25,7 +25,10 @@ export function login(username, password, location) {
 		        dispatch(setAuthToken(data.user.token));
 
 				if (location.state && location.state.nextPathname) {
-					browserHistory.push(location.state.nextPathname)
+					browserHistory.push({
+						pathname: location.state.nextPathname,
+						search: location.state.nextSearch
+					})
 				} else {
 					browserHistory.push('/dashboard')
 				}

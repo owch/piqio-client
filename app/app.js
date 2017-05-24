@@ -36,7 +36,10 @@ function requireAuth(nextState, replace) {
 	if (! loggedIn) {
 		replace({
 			pathname: '/login',
-			state: { nextPathname: nextState.location.pathname }
+			state: {
+				nextPathname: nextState.location.pathname,
+				nextSearch: nextState.location.search
+			}
 		})
 	}    
 }
