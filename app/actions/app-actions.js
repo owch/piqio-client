@@ -5,7 +5,7 @@ import $ from 'jquery';
 
 export function login(username, password) {	
 	return (dispatch) => {
-		const ngrokUrl = "http://e15fee18.ngrok.io";
+		const ngrokUrl = "http://sonar-prod.us-west-2.elasticbeanstalk.com/";
 		var encodedData = window.btoa(username + ':' + password);
 
 		$.ajax
@@ -19,7 +19,7 @@ export function login(username, password) {
 		        xhr.setRequestHeader('Authorization', "Basic " + encodedData); 
 		    },
 		    success: function (data){
-		        console.log(data);		        
+		        console.log(data);
 		        dispatch(setAuthState(true));
 		        dispatch(setEmail(data.user.email))
 		        dispatch(setUserId(data.user.id))
@@ -32,7 +32,7 @@ export function login(username, password) {
 
 export function register(username, password) {	
 	return (dispatch) => {
-		const ngrokUrl = "http://e15fee18.ngrok.io";
+		const ngrokUrl = "http://sonar-prod.us-west-2.elasticbeanstalk.com/";
 
 		axios.post(ngrokUrl + '/api/users/', {
 		    email: username,
@@ -41,7 +41,11 @@ export function register(username, password) {
 		  })
 		  .then(function (response) {
 		    console.log(response);
+		    var data = response.data;
 		    dispatch(setAuthState(true));
+		    dispatch(setEmail(data.user.email))
+	        dispatch(setUserId(data.user.id))
+	        dispatch(setAuthToken(data.user.token))
 		    browserHistory.push('/dashboard');
 		  })
 		  .catch(function (error) {
