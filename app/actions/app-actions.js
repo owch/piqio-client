@@ -1,11 +1,10 @@
 import { browserHistory } from 'react-router';
-import { CHANGE_FORM, SET_AUTH, SENDING_REQUEST, SET_ERROR_MESSAGE, SET_USER_ID, SET_EMAIL, SET_AUTH_TOKEN } from '../constants/app-constants';
+import { CHANGE_FORM, SET_AUTH, SENDING_REQUEST, SET_ERROR_MESSAGE, SET_USER_ID, SET_EMAIL, SET_AUTH_TOKEN, ngrokUrl } from '../constants/app-constants';
 import axios from 'axios';
 import $ from 'jquery';
 
 export function login(username, password) {	
-	return (dispatch) => {
-		const ngrokUrl = "http://sonar-prod.us-west-2.elasticbeanstalk.com/";
+	return (dispatch) => {		
 		var encodedData = window.btoa(username + ':' + password);
 
 		$.ajax
@@ -21,9 +20,9 @@ export function login(username, password) {
 		    success: function (data){
 		        console.log(data);
 		        dispatch(setAuthState(true));
-		        dispatch(setEmail(data.user.email))
-		        dispatch(setUserId(data.user.id))
-		        dispatch(setAuthToken(data.user.token))
+		        dispatch(setEmail(data.user.email));
+		        dispatch(setUserId(data.user.id));
+		        dispatch(setAuthToken(data.user.token));
 		        browserHistory.push('/dashboard');
 		    }
 		});		
@@ -31,9 +30,7 @@ export function login(username, password) {
 }
 
 export function register(username, password) {	
-	return (dispatch) => {
-		const ngrokUrl = "http://sonar-prod.us-west-2.elasticbeanstalk.com/";
-
+	return (dispatch) => {		
 		axios.post(ngrokUrl + '/api/users/', {
 		    email: username,
 		    password: password,
@@ -43,9 +40,9 @@ export function register(username, password) {
 		    console.log(response);
 		    var data = response.data;
 		    dispatch(setAuthState(true));
-		    dispatch(setEmail(data.user.email))
-	        dispatch(setUserId(data.user.id))
-	        dispatch(setAuthToken(data.user.token))
+		    dispatch(setEmail(data.user.email));
+	        dispatch(setUserId(data.user.id));
+	        dispatch(setAuthToken(data.user.token));
 		    browserHistory.push('/dashboard');
 		  })
 		  .catch(function (error) {
@@ -62,6 +59,20 @@ export function logout() {
         dispatch(setAuthToken(''));
         browserHistory.push('/');
 	}
+}
+
+export function getAlerts(token, callback) {	
+	axios.get(ngrokUrl + '/api/alerts/', {
+	    headers: {'Authorization' : 'Bearer ' + token},	    	    
+	  })
+	  .then(function (response) {
+	    console.log(response);
+	    var data = response.data;
+	    callback(data.alerts);
+	  })
+	  .catch(function (error) {
+	    console.log(error);
+	  });
 }
 
 

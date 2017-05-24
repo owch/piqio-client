@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getAlerts } from '../../actions/app-actions';
 import rd3 from 'react-d3';
 
 var LineChart = rd3.LineChart;
 
 class Dashboard extends Component { 
+  componentDidMount() {      
+      var userId = this.props.data.userid;
+      var authToken = this.props.data.authtoken;
+      getAlerts(authToken, function(alerts) {
+        console.log(alerts);
+      });
+  }
+
   render() {
     var lineData = [
         { 
