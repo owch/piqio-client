@@ -14,6 +14,7 @@ class Nav extends Component {
       console.log(this.props.loggedIn);
   		const navButtons = this.props.loggedIn ? (
           <div>
+              <Link to="/form" className="btn btn--login btn--nav">New Watch</Link>
               <Link to="/dashboard" className="btn btn--login btn--nav">Dashboard</Link>
               <a href="#" className="btn btn--login btn--nav" onClick={this._logout.bind(this)}>Logout</a>
           </div>
