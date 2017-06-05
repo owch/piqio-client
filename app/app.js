@@ -54,7 +54,7 @@ ReactDOM.render(
 	      	<Route path="login" component={LoginPage}/>
 	      	<Route path="register" component={RegisterPage}/>
 			<Route path="dashboard" component={Dashboard} onEnter={requireAuth}/>
-			<Route path="form*" component={FormPage}/>
+			<Route path="form" component={FormPage} onEnter={requireAuth}/>
 	    </Route>
 	  </Router>
  	</Provider>,

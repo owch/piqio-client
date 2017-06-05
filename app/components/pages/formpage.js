@@ -2,19 +2,43 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { login } from '../../actions/app-actions';
+import { setAlert } from '../../actions/app-actions';
 
 class FormPage extends Component {
 
-	_login(e) {
+	_subForm(e) {
 		e.preventDefault();		
+		var name = ReactDOM.findDOMNode(this.refs.name).value.trim();
+		var url = ReactDOM.findDOMNode(this.refs.url).value.trim();
+		var selector = ReactDOM.findDOMNode(this.refs.selector).value.trim();
+		var selectedElement = ReactDOM.findDOMNode(this.refs.selectedElement).value.trim();
+		var elementType = ReactDOM.findDOMNode(this.refs.elementType).value.trim();
+		var frequency = ReactDOM.findDOMNode(this.refs.frequency).value.trim();
+		var pollingRate;
 
-		var username = ReactDOM.findDOMNode(this.refs.username).value.trim();
-		var password = ReactDOM.findDOMNode(this.refs.password).value.trim();
+		switch(frequency) {
+		    case 1:
+		        pollingRate = 5;
+		        break;
+		    case 2:
+		        pollingRate = 15;
+		        break;
+		    case 3:
+		        pollingRate = 30;
+		        break;
+		    case 4:
+		    default:
+		        pollingRate = 60;
+		}
+
+		var notification = ReactDOM.findDOMNode(this.refs.notification).value.trim();
+		var condition = ReactDOM.findDOMNode(this.refs.condition).value.trim();
 		
-		var me = this;		
+		var authToken = this.props.data.authtoken;
+		setAlert(authToken, name, url, selector, pollingRate, "email,push")
+		var me = this;
 
-		this.props.dispatch(login(username, password));
+		//this.props.dispatch(login(username, password));
 	}
 
 	render() {				
@@ -23,6 +47,12 @@ class FormPage extends Component {
 				<div className="content-wrapper">
 					<form>
 					  <h1>New Piqio Watch</h1>
+					  
+					  <div className="form-group">
+					    <label for="formGroupExampleInput">Name of Piqio Watch</label>
+					    <input type="text" ref="name" className="form-control" placeholder="Sample Name" required="" />
+					  </div>
+					  
 					  <div className="form-group">
 					    <label for="formGroupExampleInput">The URL address of the page you want to monitor</label>
 					    <input type="text" ref="url" className="form-control" placeholder="www.example.com" required="" value={this.props.location.query.url}/>
@@ -35,14 +65,14 @@ class FormPage extends Component {
 					  
 					  <div className="form-group">
 					    <label for="formGroupExampleInput">Contents of the element selected</label>
-					    <input type="text" ref="content" className="form-control" placeholder="Selected Content" required="" />
+					    <input type="text" ref="selectedElement" className="form-control" placeholder="Selected Content" required="" />
 					  </div>
 					  
 					  
 					  <div className="row">
 					  	<div className="col-sm-6">
 					  	  	<label for="formGroupExampleInput">Type of Element being monitored</label>
-						  	<select ref="" className="form-control form-control-lg" id="inlineFormCustomSelect">
+						  	<select ref="elementType" className="form-control form-control-lg" id="inlineFormCustomSelect">
 							    <option value="1">Number</option>
 								<option value="2">String</option>
 						  	</select>
@@ -50,7 +80,7 @@ class FormPage extends Component {
 
 						<div className="col-sm-6">
 					  	  	<label for="formGroupExampleInput">How frequent do you want to poll?</label>
-						  	<select className="form-control form-control-lg" id="inlineFormCustomSelect">
+						  	<select ref="frequency" className="form-control form-control-lg" id="inlineFormCustomSelect">
 							    <option value="1">5 seconds</option>
 								<option value="2">15 seconds</option>
 								<option value="3">30 seconds</option>
@@ -63,7 +93,7 @@ class FormPage extends Component {
 
 					  <div className="form-group">
 				  	  	<label for="formGroupExampleInput">Notification method</label>
-					  	<select className="form-control form-control-lg" id="inlineFormCustomSelect">
+					  	<select ref="notification" className="form-control form-control-lg" id="inlineFormCustomSelect">
 						    <option value="1">Email</option>
 						    <option value="2">Chrome notification</option>
 							<option value="3">Piqio mobile app</option>
@@ -73,10 +103,12 @@ class FormPage extends Component {
 
 					  <div className="form-group">
 				  	  	<label for="formGroupExampleInput">Notification conditions</label>
-					  	<select className="form-control form-control-lg" id="inlineFormCustomSelect">
+					  	<select ref="condition" className="form-control form-control-lg" id="inlineFormCustomSelect">
 						    <option value="1">Text Change</option>
 					  	</select>
 					  </div>
+
+					  <button className="btn btn-lg btn-primary btn-block login-button" type="submit" onClick={this._subForm.bind(this) }>Create New Watch</button> 
 
 					</form>				  
 				</div>

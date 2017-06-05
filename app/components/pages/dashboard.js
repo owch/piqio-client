@@ -9,6 +9,7 @@ class Dashboard extends Component {
   componentDidMount() {      
       var userId = this.props.data.userid;
       var authToken = this.props.data.authtoken;
+      alert(authtoken)
       getAlerts(authToken, function(alerts) {
         console.log(alerts);
       });
