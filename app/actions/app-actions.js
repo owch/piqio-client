@@ -100,6 +100,20 @@ export function setAlert(token, name, url, selector, pollingRate, notificationTy
 	    browserHistory.push('/dashboard')
 	  })
 	  .catch(function (error) {
+	  	 console.log(error);
+	  });
+}
+
+export function getAlertHistory(token, id, callback) {		
+	axios.get(ngrokUrl + '/api/alerts/' + id + '/history', {
+	    headers: {'Authorization' : 'Bearer ' + token},	    	    
+	  })
+	  .then(function (response) {	  	
+	    console.log(response);
+	    var data = response.data;
+	    callback(data);
+	  })
+	  .catch(function (error) {	  	
 	    console.log(error);
 	  });
 }
