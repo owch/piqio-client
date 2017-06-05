@@ -18,6 +18,8 @@ class FormPage extends Component {
 	}
 
 	render() {				
+		console.log("query: ");
+		console.log(this.props.location.query);
 		return (
 			 <div className="content"> 
 				<div className="content-wrapper">
@@ -25,12 +27,12 @@ class FormPage extends Component {
 					  <h1>New Piqio Watch</h1>
 					  <div className="form-group">
 					    <label for="formGroupExampleInput">The URL address of the page you want to monitor</label>
-					    <input type="text" ref="password" className="form-control" placeholder="www.example.com" required=""/>
+					    <input type="text" ref="url" className="form-control" placeholder="www.example.com" required="" value={this.props.location.query.url}/>
 					  </div>
 					  
 					  <div className="form-group">
 					    <label for="formGroupExampleInput">Element Selector</label>
-					    <input type="text" ref="selector" className="form-control" placeholder="Example Selector" required=""/>
+					    <input type="text" ref="selector" className="form-control" placeholder="Example Selector" required="" value={this.props.location.query.selector}/>
 					  </div>
 					  
 					  <div className="form-group">
