@@ -14,7 +14,8 @@ class LoginPage extends Component {
 		
 		var me = this;		
 
-		this.props.dispatch(login(username, password));
+		const location = this.props.location;
+		this.props.dispatch(login(username, password, location));
 	}
 
 	render() {				
