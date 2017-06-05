@@ -18,8 +18,6 @@ class FormPage extends Component {
 	}
 
 	render() {				
-		console.log("query: ");
-		console.log(this.props.location.query);
 		return (
 			 <div className="content"> 
 				<div className="content-wrapper">
