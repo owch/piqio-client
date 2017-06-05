@@ -30,12 +30,18 @@ require("../css/components/_loginpage.css");
 require("../css/components/_mainpage.css");
 require("../css/main.css");
 
-function requireAuth(nextState, replaceState) {
+function requireAuth(nextState, replace) {
 	let { loggedIn } = store.getState();
 	console.log(store.getState());
 	//if not logged in
 	if (! loggedIn) {
-		replaceState({ nextPathname: nextState.location.pathname }, '/login')
+		replace({
+			pathname: '/login',
+			state: {
+				nextPathname: nextState.location.pathname,
+				nextSearch: nextState.location.search
+			}
+		})
 	}    
 }
 
