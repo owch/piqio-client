@@ -12,6 +12,7 @@ class AlertPage extends Component {
   		authToken: this.props.data.authtoken,
   		alertId: this.props.params.alertId
   	})  
+  	this.sync();
   	this.startPolling();
   }
 
@@ -59,7 +60,15 @@ class AlertPage extends Component {
   		valueList.push({x: 0, y: 0});  		
   	}
   	else {
-  		for (var i = 0; i < histories.length; i++) {
+
+  		var rangex = 0;
+  		var rangey = histories.length;
+
+  		if(histories.length > 100) {
+  			rangex = histories.length - 100;
+  		}
+
+  		for (var i = rangex; i < rangey; i++) {
 	  		var point = Object.values(histories[i])[0];
 	  		valueList.push({x: i, y: point});  		
 	  	}	
