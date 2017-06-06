@@ -22,17 +22,15 @@ class LoginPage extends Component {
 		return (
 			 <div className="content"> 
 				<div className="content-wrapper">
-					<div className="login-wrapper">
-					    <form className="form-signin">       
-					      <h2 className="form-signin-heading">Please login</h2>
-					      <input type="text" id="username" ref="username" className="form-control username" placeholder="Email Address" required="" autoFocus="" />
-					      <input type="password" id="password" ref="password" className="form-control password" placeholder="Password" required=""/>      					      
-					      <button className="btn btn-lg btn-primary btn-block login-button" type="submit" onClick={this._login.bind(this) }>Login</button>   
+				    <form className="form-signin">       
+				      <h2 className="form-signin-heading">Please login</h2>
+				      <input type="text" id="username" ref="username" className="form-control username" placeholder="Email Address" required="" autoFocus="" />
+				      <input type="password" id="password" ref="password" className="form-control password" placeholder="Password" required=""/>      					      
+				      <button className="btn btn-lg btn-primary btn-block login-button" type="submit" onClick={this._login.bind(this) }>Login</button>   
 
-					      <h2 className="form-signin-heading">Or</h2>
-					  		<button className="btn btn-lg btn-block google-login-page" type="submit">Login with Google</button>   
-					    </form>					    
-					  </div>					  
+				      <h2 className="form-signin-heading">Or</h2>
+				  	  <button className="btn btn-lg btn-block google-login-page" type="submit">Login with Google</button>   
+				    </form>					    
 				</div>
 			</div>			
 			);

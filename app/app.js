@@ -11,6 +11,7 @@ import HomePage from './components/pages/homepage';
 import LoginPage from './components/pages/loginpage';
 import RegisterPage from './components/pages/registerpage';
 import Dashboard from './components/pages/dashboard';
+import FormPage from './components/pages/formpage';
 import AlertPage from './components/pages/alertpage';
 
 // Redux
@@ -53,6 +54,7 @@ ReactDOM.render(
 	      	<Route path="/" component={HomePage} />
 	      	<Route path="login" component={LoginPage}/>
 	      	<Route path="register" component={RegisterPage}/>
+			<Route path="form*" component={FormPage} onEnter={requireAuth}/>
 			<Route path="dashboard" onEnter={requireAuth} component={Dashboard}/>
 			<Route path="dashboard/:alertId" onEnter={requireAuth} component={AlertPage}/>
 	    </Route>

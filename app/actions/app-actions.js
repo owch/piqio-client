@@ -51,6 +51,7 @@ export function register(username, password) {
 		    dispatch(setEmail(data.user.email));
 	        dispatch(setUserId(data.user.id));
 	        dispatch(setAuthToken(data.user.token));
+	        console.log(data.user.token)
 		    browserHistory.push('/dashboard');
 		  })
 		  .catch(function (error) {
@@ -80,6 +81,26 @@ export function getAlerts(token, callback) {
 	  })
 	  .catch(function (error) {
 	    console.log(error);
+	  });
+}
+
+export function setAlert(token, name, url, selector, pollingRate, notificationTypes) {	
+	axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+	axios.post(ngrokUrl + 'api/alerts/', {
+	    
+	    "name": name,
+	    "url": url,
+	    "selector": selector,
+	    "pollingRate": pollingRate,
+	    "notificationTypes": notificationTypes
+	  })
+	  .then(function (response) {
+	    console.log(response);
+	    var data = response.data;
+	    browserHistory.push('/dashboard')
+	  })
+	  .catch(function (error) {
+	  	 console.log(error);
 	  });
 }
 
