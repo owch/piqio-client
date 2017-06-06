@@ -6,10 +6,31 @@ import rd3 from 'react-d3';
 var LineChart = rd3.LineChart;
 
 class AlertPage extends Component { 
-  componentDidMount() {      
-      var userId = this.props.data.userid;
-      var authToken = this.props.data.authtoken;
-      var alertId = this.props.params.alertId        
+  componentDidMount() {    
+  	this.setState({
+  		userId: this.props.data.userid,
+  		authToken: this.props.data.authtoken,
+  		alertId: this.props.params.alertId
+  	})  
+  	this.startPolling();
+  }
+
+  componentWillMount() {
+  	if (this._timer) {
+        clearInterval(this._timer);
+        this._timer = null;
+	}
+  }
+
+  startPolling() {
+    var self = this;
+  	self._timer = setInterval(self.sync , 3000);
+  }
+
+  sync () {
+  	  var userId = this.state.userId;
+      var authToken = this.state.authToken;
+      var alertId = this.state.alertId        
       var me = this;
       
       getAlertHistory(authToken , alertId , function(history) {                         
@@ -18,12 +39,13 @@ class AlertPage extends Component {
       	me.setState({
           histories: graphHistory
       	})
-      });                
+      }); 
   }
 
   constructor(props) {
     super(props);
-    this.state = {histories: []};
+    this.state = {histories: [], userId: '', authToken: '', alertId: ''};
+    this.sync = this.sync.bind(this);
   }
 
   render() {  
@@ -37,7 +59,7 @@ class AlertPage extends Component {
   		valueList.push({x: 0, y: 0});  		
   	}
   	else {
-  		for (var i = histories.length - 100; i < histories.length; i++) {
+  		for (var i = 0; i < histories.length; i++) {
 	  		var point = Object.values(histories[i])[0];
 	  		valueList.push({x: i, y: point});  		
 	  	}	
