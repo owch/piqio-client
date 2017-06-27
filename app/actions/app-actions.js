@@ -23,6 +23,7 @@ export function login(username, password, location) {
 		        dispatch(setEmail(data.user.email));
 		        dispatch(setUserId(data.user.id));
 		        dispatch(setAuthToken(data.user.token));
+		        localStorage.setItem('token', data.user.token);
 
 				if (location.state && location.state.nextPathname) {
 					browserHistory.push({
@@ -35,6 +36,28 @@ export function login(username, password, location) {
 		    }
 		});		
 	}	
+}
+
+export function loginToken (token) {
+	return (dispatch) => {	
+		axios.get(ngrokUrl + '/api/users/me/', {
+		    headers: {'Authorization' : 'Bearer ' + token},	    	    
+		  })
+		  .then(function (response) {
+		    console.log(response);
+		    var data = response.data;
+		    dispatch(setAuthState(true));
+		    dispatch(setEmail(data.user.email));
+	        dispatch(setUserId(data.user.id));
+	        dispatch(setAuthToken(data.user.token));
+	        localStorage.setItem('token', data.user.token);
+	        
+		    browserHistory.push('/');
+		  })
+		  .catch(function (error) {
+		    console.log(error);
+		  });
+	}
 }
 
 export function register(username, password) {	
@@ -51,8 +74,9 @@ export function register(username, password) {
 		    dispatch(setEmail(data.user.email));
 	        dispatch(setUserId(data.user.id));
 	        dispatch(setAuthToken(data.user.token));
-	        console.log(data.user.token)
-		    browserHistory.push('/dashboard');
+	        localStorage.setItem('token', data.user.token);
+	        
+		    browserHistory.push('/');
 		  })
 		  .catch(function (error) {
 		    console.log(error);
@@ -97,7 +121,7 @@ export function setAlert(token, name, url, selector, pollingRate, notificationTy
 	  .then(function (response) {
 	    console.log(response);
 	    var data = response.data;
-	    browserHistory.push('/dashboard')
+	    browserHistory.push('/')
 	  })
 	  .catch(function (error) {
 	  	 console.log(error);

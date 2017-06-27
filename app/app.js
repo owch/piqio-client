@@ -20,6 +20,8 @@ import thunk from 'redux-thunk';
 import { homeReducer } from './reducers/reducers';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
+import { loginToken } from './actions/app-actions';
+
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 const store = createStoreWithMiddleware(homeReducer);
@@ -31,18 +33,27 @@ require("../css/components/_loginpage.css");
 require("../css/components/_mainpage.css");
 require("../css/main.css");
 
-function requireAuth(nextState, replace) {
+function requireAuth(nextState, replace) {	
+
 	let { loggedIn } = store.getState();
 	console.log(store.getState());
 	//if not logged in
 	if (! loggedIn) {
-		replace({
-			pathname: '/login',
-			state: {
-				nextPathname: nextState.location.pathname,
-				nextSearch: nextState.location.search
-			}
-		})
+		const token = localStorage.getItem('token');
+		console.log("Token:" + token)
+
+		if (token != null) {
+			store.dispatch(loginToken(token));
+		}		
+		else {
+			replace({
+				pathname: '/login',
+				state: {
+					nextPathname: nextState.location.pathname,
+					nextSearch: nextState.location.search
+				}
+			})
+		}		
 	}    
 }
 

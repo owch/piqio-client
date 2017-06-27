@@ -6,31 +6,17 @@ import { Link } from 'react-router';
 
 var LineChart = rd3.LineChart;
 
-class Dashboard extends Component { 
-  componentDidMount() {      
+class Dashboard extends Component {
+  componentDidMount() {
       var userId = this.props.data.userid;
       var authToken = this.props.data.authtoken;
-      var alerts;      
+      var alerts;
       var me = this;
-      getAlerts(authToken, function(results) {        
+      getAlerts(authToken, function(results) {
         me.setState({
           alerts: results
-        });  
-
-        
-
-        // for (var i = 0; i < results.length; i++) {
-        //   var alert = results[i];          
-        //   getAlertHistory(authToken , alert.id , function(history) {                          
-        //       var graphHistory = history;              
-        //       var newHistory = me.state.histories.concat(graphHistory);              
-        //       me.setState({
-        //         histories: newHistory
-        //       })
-        //   });
-        // }        
-
-      });            
+        });
+      });
   }
 
   constructor(props) {
