@@ -55,12 +55,12 @@ class FormPage extends Component {
 					  
 					  <div className="form-group">
 					    <label for="formGroupExampleInput">The URL address of the page you want to monitor</label>
-					    <input type="text" ref="url" className="form-control" placeholder="www.example.com" required="" value={this.props.location.query.url}/>
+					    <input type="text" ref="url" className="form-control" placeholder="www.example.com" required="" defaultValue={this.props.location.query.url}/>
 					  </div>
 					  
 					  <div className="form-group">
 					    <label for="formGroupExampleInput">Element Selector</label>
-					    <input type="text" ref="selector" className="form-control" placeholder="Example Selector" required="" value={this.props.location.query.selector}/>
+					    <input type="text" ref="selector" className="form-control" placeholder="Example Selector" required="" defaultValue={this.props.location.query.selector}/>
 					  </div>
 					  
 					  <div className="form-group">
