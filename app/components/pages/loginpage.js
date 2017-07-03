@@ -18,6 +18,25 @@ class LoginPage extends Component {
 		this.props.dispatch(login(username, password, location));
 	}
 
+	onSignIn(googleUser) {
+	  var profile = googleUser.getBasicProfile();
+	  console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+	  console.log('Name: ' + profile.getName());
+	  console.log('Image URL: ' + profile.getImageUrl());
+	  console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	}
+
+	componentDidMount() {		
+		gapi.signin2.render('g-signin2', {
+			'scope': 'profile email',
+			'width': 200,
+			'height': 50,
+			'longtitle': true,
+			'theme': 'dark',
+			'onsuccess': this.onSignIn
+		});
+	}
+
 	render() {				
 		return (
 			 <div className="content"> 
@@ -29,7 +48,7 @@ class LoginPage extends Component {
 				      <button className="btn btn-lg btn-primary btn-block login-button" type="submit" onClick={this._login.bind(this) }>Login</button>   
 
 				      <h2 className="form-signin-heading">Or</h2>
-				  	  <button className="btn btn-lg btn-block google-login-page" type="submit">Login with Google</button>   
+					  <div id="g-signin2" data-onsuccess={this.onSignIn} />
 				    </form>					    
 				</div>
 			</div>			
